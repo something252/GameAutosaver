@@ -158,8 +158,8 @@ Partial Class SettingsForm
         Me.AltSaveNowLocCheckBox.Size = New System.Drawing.Size(250, 22)
         Me.AltSaveNowLocCheckBox.TabIndex = 0
         Me.AltSaveNowLocCheckBox.Text = "Use alternate Quick Save location"
-        Me.ToolTip1.SetToolTip(Me.AltSaveNowLocCheckBox, "When activated, if you click ""Save Now"" it will create an autosave in a seperate " &
-        "directory that you specify.")
+        Me.ToolTip1.SetToolTip(Me.AltSaveNowLocCheckBox, "When activated, quick saving will create a save in a different specified director" &
+        "y.")
         Me.AltSaveNowLocCheckBox.UseVisualStyleBackColor = True
         '
         'AltSaveNowLocBrowseButton

@@ -133,7 +133,7 @@
     <value>419, 17</value>
   </metadata>
   <data name="RoundRobinButton.ToolTip" xml:space="preserve">
-    <value>Enable or disable the overwriting of autosaves. 
+    <value>Enable or disable the overwriting of saves. 
 When the current autosave count goes beyond the specified limit it will start from 1 again 
 or for example if the "Autosave 5" folder already exists and the current autosave count is now 5 and is saving it will either overwrite it or not.</value>
   </data>
