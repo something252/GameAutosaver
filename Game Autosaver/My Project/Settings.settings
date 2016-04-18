@@ -11,7 +11,7 @@
     <Setting Name="AutosaveIntervalMinutes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="SaveCounter" Type="System.Int32" Scope="User">
+    <Setting Name="AutoSaveCounter" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="OverwriteSaves" Type="System.Boolean" Scope="User">
@@ -23,8 +23,8 @@
     <Setting Name="RoundRobinEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="AutosaveLimit" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2147483646</Value>
+    <Setting Name="AutosaveLimit" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">79228162514264337593543950335</Value>
     </Setting>
     <Setting Name="SimpleAutosaveOverwriting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -47,6 +47,21 @@
     </Setting>
     <Setting Name="AlternateSaveNowLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="QuickSaveHotKey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">F5</Value>
+    </Setting>
+    <Setting Name="QuickLoadHotKey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">F8</Value>
+    </Setting>
+    <Setting Name="QuickSaveCounter" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="LastQuickSavePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="BackupQuickLoad" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -93,12 +93,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property SaveCounter() As Integer
+        Public Property AutoSaveCounter() As Integer
             Get
-                Return CType(Me("SaveCounter"),Integer)
+                Return CType(Me("AutoSaveCounter"),Integer)
             End Get
             Set
-                Me("SaveCounter") = value
+                Me("AutoSaveCounter") = value
             End Set
         End Property
         
@@ -140,10 +140,10 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2147483646")>  _
-        Public Property AutosaveLimit() As Integer
+         Global.System.Configuration.DefaultSettingValueAttribute("79228162514264337593543950335")>  _
+        Public Property AutosaveLimit() As Decimal
             Get
-                Return CType(Me("AutosaveLimit"),Integer)
+                Return CType(Me("AutosaveLimit"),Decimal)
             End Get
             Set
                 Me("AutosaveLimit") = value
@@ -232,6 +232,66 @@ Namespace My
             End Get
             Set
                 Me("AlternateSaveNowLocation") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("F5")>  _
+        Public Property QuickSaveHotKey() As Global.System.Windows.Forms.Keys
+            Get
+                Return CType(Me("QuickSaveHotKey"),Global.System.Windows.Forms.Keys)
+            End Get
+            Set
+                Me("QuickSaveHotKey") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("F8")>  _
+        Public Property QuickLoadHotKey() As Global.System.Windows.Forms.Keys
+            Get
+                Return CType(Me("QuickLoadHotKey"),Global.System.Windows.Forms.Keys)
+            End Get
+            Set
+                Me("QuickLoadHotKey") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property QuickSaveCounter() As Decimal
+            Get
+                Return CType(Me("QuickSaveCounter"),Decimal)
+            End Get
+            Set
+                Me("QuickSaveCounter") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property LastQuickSavePath() As String
+            Get
+                Return CType(Me("LastQuickSavePath"),String)
+            End Get
+            Set
+                Me("LastQuickSavePath") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property BackupQuickLoad() As Boolean
+            Get
+                Return CType(Me("BackupQuickLoad"),Boolean)
+            End Get
+            Set
+                Me("BackupQuickLoad") = value
             End Set
         End Property
     End Class

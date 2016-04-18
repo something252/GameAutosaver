@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Game Autosaver")>
-<Assembly: AssemblyDescription("Automate the saving of a game's save data when a game doesn't have autosaving inside the game. Play the game the way you want to and save scum all day long with this program.")>
+<Assembly: AssemblyDescription("Automate the saving of a game's save data when a game doesn't have autosaving or quick saving inside the game. Play the game the way you want to.")>
 <Assembly: AssemblyCompany("David Plesnarski")>
 <Assembly: AssemblyProduct("Game Autosaver")>
 <Assembly: AssemblyCopyright("Copyright ©  2016")>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.7.6.0")>
-<Assembly: AssemblyFileVersion("1.7.6.0")>
+<Assembly: AssemblyVersion("1.9.0.0")>
+<Assembly: AssemblyFileVersion("1.9.0.0")>

@@ -22,7 +22,7 @@ Partial Class GameList
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.GameName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.LoadButton = New System.Windows.Forms.DataGridViewButtonColumn()
@@ -37,6 +37,8 @@ Partial Class GameList
         Me.AutosaveLimit = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.AlternateSaveNowLocationEnabled = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.AlternateSaveNowLocation = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.QuickSaveCounter = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.LastQuickSavePath = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.NewButton = New System.Windows.Forms.Button()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -46,7 +48,7 @@ Partial Class GameList
         Me.DataGridView1.AllowUserToAddRows = False
         Me.DataGridView1.AllowUserToDeleteRows = False
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.GameName, Me.LoadButton, Me.RemoveButton, Me.GameSaveDirectory, Me.AutosaveStorageDirectory, Me.AutosaveInterval, Me.SaveCounter, Me.OverwriteSaves, Me.BackgroundImageLoc, Me.RoundRobinEnabled, Me.AutosaveLimit, Me.AlternateSaveNowLocationEnabled, Me.AlternateSaveNowLocation})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.GameName, Me.LoadButton, Me.RemoveButton, Me.GameSaveDirectory, Me.AutosaveStorageDirectory, Me.AutosaveInterval, Me.SaveCounter, Me.OverwriteSaves, Me.BackgroundImageLoc, Me.RoundRobinEnabled, Me.AutosaveLimit, Me.AlternateSaveNowLocationEnabled, Me.AlternateSaveNowLocation, Me.QuickSaveCounter, Me.LastQuickSavePath})
         Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DataGridView1.Location = New System.Drawing.Point(0, 0)
         Me.DataGridView1.MultiSelect = False
@@ -58,8 +60,8 @@ Partial Class GameList
         '
         'GameName
         '
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        Me.GameName.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.GameName.DefaultCellStyle = DataGridViewCellStyle2
         Me.GameName.HeaderText = "Name"
         Me.GameName.Name = "GameName"
         Me.GameName.ReadOnly = True
@@ -69,7 +71,6 @@ Partial Class GameList
         '
         Me.LoadButton.HeaderText = ""
         Me.LoadButton.Name = "LoadButton"
-        Me.LoadButton.ReadOnly = True
         Me.LoadButton.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.LoadButton.Text = "Load"
         Me.LoadButton.UseColumnTextForButtonValue = True
@@ -79,7 +80,6 @@ Partial Class GameList
         '
         Me.RemoveButton.HeaderText = ""
         Me.RemoveButton.Name = "RemoveButton"
-        Me.RemoveButton.ReadOnly = True
         Me.RemoveButton.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.RemoveButton.Text = "Remove"
         Me.RemoveButton.UseColumnTextForButtonValue = True
@@ -89,7 +89,6 @@ Partial Class GameList
         '
         Me.GameSaveDirectory.HeaderText = "Game Save Directory"
         Me.GameSaveDirectory.Name = "GameSaveDirectory"
-        Me.GameSaveDirectory.ReadOnly = True
         Me.GameSaveDirectory.Visible = False
         Me.GameSaveDirectory.Width = 250
         '
@@ -97,7 +96,6 @@ Partial Class GameList
         '
         Me.AutosaveStorageDirectory.HeaderText = "Autosave Storage Directory"
         Me.AutosaveStorageDirectory.Name = "AutosaveStorageDirectory"
-        Me.AutosaveStorageDirectory.ReadOnly = True
         Me.AutosaveStorageDirectory.Visible = False
         Me.AutosaveStorageDirectory.Width = 250
         '
@@ -105,7 +103,6 @@ Partial Class GameList
         '
         Me.AutosaveInterval.HeaderText = "Interval"
         Me.AutosaveInterval.Name = "AutosaveInterval"
-        Me.AutosaveInterval.ReadOnly = True
         Me.AutosaveInterval.Visible = False
         Me.AutosaveInterval.Width = 50
         '
@@ -113,7 +110,6 @@ Partial Class GameList
         '
         Me.SaveCounter.HeaderText = "Counter"
         Me.SaveCounter.Name = "SaveCounter"
-        Me.SaveCounter.ReadOnly = True
         Me.SaveCounter.Visible = False
         Me.SaveCounter.Width = 50
         '
@@ -121,7 +117,6 @@ Partial Class GameList
         '
         Me.OverwriteSaves.HeaderText = "Overwrite Saves"
         Me.OverwriteSaves.Name = "OverwriteSaves"
-        Me.OverwriteSaves.ReadOnly = True
         Me.OverwriteSaves.Visible = False
         Me.OverwriteSaves.Width = 50
         '
@@ -129,7 +124,6 @@ Partial Class GameList
         '
         Me.BackgroundImageLoc.HeaderText = "Background Image Location"
         Me.BackgroundImageLoc.Name = "BackgroundImageLoc"
-        Me.BackgroundImageLoc.ReadOnly = True
         Me.BackgroundImageLoc.Visible = False
         Me.BackgroundImageLoc.Width = 250
         '
@@ -137,7 +131,6 @@ Partial Class GameList
         '
         Me.RoundRobinEnabled.HeaderText = "Round Robin"
         Me.RoundRobinEnabled.Name = "RoundRobinEnabled"
-        Me.RoundRobinEnabled.ReadOnly = True
         Me.RoundRobinEnabled.Visible = False
         Me.RoundRobinEnabled.Width = 50
         '
@@ -145,22 +138,31 @@ Partial Class GameList
         '
         Me.AutosaveLimit.HeaderText = "Autosave Limit"
         Me.AutosaveLimit.Name = "AutosaveLimit"
-        Me.AutosaveLimit.ReadOnly = True
         Me.AutosaveLimit.Visible = False
         '
         'AlternateSaveNowLocationEnabled
         '
         Me.AlternateSaveNowLocationEnabled.HeaderText = "Alternate ""Save Now"" Location Enabled"
         Me.AlternateSaveNowLocationEnabled.Name = "AlternateSaveNowLocationEnabled"
-        Me.AlternateSaveNowLocationEnabled.ReadOnly = True
         Me.AlternateSaveNowLocationEnabled.Visible = False
         '
         'AlternateSaveNowLocation
         '
         Me.AlternateSaveNowLocation.HeaderText = "Alternate ""Save Now"" Location"
         Me.AlternateSaveNowLocation.Name = "AlternateSaveNowLocation"
-        Me.AlternateSaveNowLocation.ReadOnly = True
         Me.AlternateSaveNowLocation.Visible = False
+        '
+        'QuickSaveCounter
+        '
+        Me.QuickSaveCounter.HeaderText = "QuickSaveCounter"
+        Me.QuickSaveCounter.Name = "QuickSaveCounter"
+        Me.QuickSaveCounter.Visible = False
+        '
+        'LastQuickSavePath
+        '
+        Me.LastQuickSavePath.HeaderText = "LastQuickSavePath"
+        Me.LastQuickSavePath.Name = "LastQuickSavePath"
+        Me.LastQuickSavePath.Visible = False
         '
         'NewButton
         '
@@ -190,17 +192,19 @@ Partial Class GameList
 
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents NewButton As Button
-    Friend WithEvents GameName As DataGridViewTextBoxColumn
-    Friend WithEvents LoadButton As DataGridViewButtonColumn
-    Friend WithEvents RemoveButton As DataGridViewButtonColumn
-    Friend WithEvents GameSaveDirectory As DataGridViewTextBoxColumn
-    Friend WithEvents AutosaveStorageDirectory As DataGridViewTextBoxColumn
-    Friend WithEvents AutosaveInterval As DataGridViewTextBoxColumn
-    Friend WithEvents SaveCounter As DataGridViewTextBoxColumn
-    Friend WithEvents OverwriteSaves As DataGridViewCheckBoxColumn
-    Friend WithEvents BackgroundImageLoc As DataGridViewTextBoxColumn
-    Friend WithEvents RoundRobinEnabled As DataGridViewCheckBoxColumn
-    Friend WithEvents AutosaveLimit As DataGridViewTextBoxColumn
-    Friend WithEvents AlternateSaveNowLocationEnabled As DataGridViewCheckBoxColumn
+    Friend WithEvents LastQuickSavePath As DataGridViewTextBoxColumn
+    Friend WithEvents QuickSaveCounter As DataGridViewTextBoxColumn
     Friend WithEvents AlternateSaveNowLocation As DataGridViewTextBoxColumn
+    Friend WithEvents AlternateSaveNowLocationEnabled As DataGridViewCheckBoxColumn
+    Friend WithEvents AutosaveLimit As DataGridViewTextBoxColumn
+    Friend WithEvents RoundRobinEnabled As DataGridViewCheckBoxColumn
+    Friend WithEvents BackgroundImageLoc As DataGridViewTextBoxColumn
+    Friend WithEvents OverwriteSaves As DataGridViewCheckBoxColumn
+    Friend WithEvents SaveCounter As DataGridViewTextBoxColumn
+    Friend WithEvents AutosaveInterval As DataGridViewTextBoxColumn
+    Friend WithEvents AutosaveStorageDirectory As DataGridViewTextBoxColumn
+    Friend WithEvents GameSaveDirectory As DataGridViewTextBoxColumn
+    Friend WithEvents RemoveButton As DataGridViewButtonColumn
+    Friend WithEvents LoadButton As DataGridViewButtonColumn
+    Friend WithEvents GameName As DataGridViewTextBoxColumn
 End Class

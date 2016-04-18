@@ -115,6 +115,12 @@
     <Compile Include="GameList.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Hotkeys.Designer.vb">
+      <DependentUpon>Hotkeys.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Hotkeys.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +166,9 @@
     <EmbeddedResource Include="GameList.resx">
       <DependentUpon>GameList.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Hotkeys.resx">
+      <DependentUpon>Hotkeys.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -174,7 +183,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

@@ -40,7 +40,7 @@ Partial Class MainForm
         Me.AutosaveF1TextBox = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.OverwriteComboBox = New System.Windows.Forms.ComboBox()
-        Me.AutosaveCountTextBox = New System.Windows.Forms.TextBox()
+        Me.SaveCountTextBox = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -51,7 +51,7 @@ Partial Class MainForm
         Me.ContainingButton2 = New System.Windows.Forms.Button()
         Me.ContainingButton1 = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.SaveNowButton = New System.Windows.Forms.Button()
+        Me.QuickSaveButton = New System.Windows.Forms.Button()
         Me.StartButton = New System.Windows.Forms.Button()
         Me.ChangeCountButton = New System.Windows.Forms.Button()
         Me.ChangeLimitButton = New System.Windows.Forms.Button()
@@ -59,6 +59,8 @@ Partial Class MainForm
         Me.MinimizeToTrayButton = New System.Windows.Forms.Button()
         Me.SettingsButton = New System.Windows.Forms.Button()
         Me.GameListButton = New System.Windows.Forms.Button()
+        Me.QuickLoadButton = New System.Windows.Forms.Button()
+        Me.CounterSwitchButton = New System.Windows.Forms.Button()
         Me.OpenImageFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -242,28 +244,28 @@ Partial Class MainForm
         Me.OverwriteComboBox.TabIndex = 57
         Me.ToolTip1.SetToolTip(Me.OverwriteComboBox, "Overwrite existing autosaves of the same name or not")
         '
-        'AutosaveCountTextBox
+        'SaveCountTextBox
         '
-        Me.AutosaveCountTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.AutosaveCountTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AutosaveCountTextBox.Location = New System.Drawing.Point(722, 241)
-        Me.AutosaveCountTextBox.Name = "AutosaveCountTextBox"
-        Me.AutosaveCountTextBox.ReadOnly = True
-        Me.AutosaveCountTextBox.Size = New System.Drawing.Size(62, 22)
-        Me.AutosaveCountTextBox.TabIndex = 59
-        Me.AutosaveCountTextBox.Text = "1"
-        Me.AutosaveCountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SaveCountTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SaveCountTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveCountTextBox.Location = New System.Drawing.Point(722, 241)
+        Me.SaveCountTextBox.Name = "SaveCountTextBox"
+        Me.SaveCountTextBox.ReadOnly = True
+        Me.SaveCountTextBox.Size = New System.Drawing.Size(62, 22)
+        Me.SaveCountTextBox.TabIndex = 59
+        Me.SaveCountTextBox.Text = "1"
+        Me.SaveCountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label9
         '
         Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(616, 244)
+        Me.Label9.Location = New System.Drawing.Point(612, 244)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(97, 16)
+        Me.Label9.Size = New System.Drawing.Size(35, 16)
         Me.Label9.TabIndex = 58
-        Me.Label9.Text = "Next autosave:"
+        Me.Label9.Text = "Next"
         '
         'Label10
         '
@@ -341,20 +343,20 @@ Partial Class MainForm
         Me.ToolTip1.SetToolTip(Me.ContainingButton1, "Open the directory")
         Me.ContainingButton1.UseVisualStyleBackColor = True
         '
-        'SaveNowButton
+        'QuickSaveButton
         '
-        Me.SaveNowButton.Dock = System.Windows.Forms.DockStyle.Left
-        Me.SaveNowButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SaveNowButton.Location = New System.Drawing.Point(0, 0)
-        Me.SaveNowButton.Margin = New System.Windows.Forms.Padding(0)
-        Me.SaveNowButton.MaximumSize = New System.Drawing.Size(137, 50)
-        Me.SaveNowButton.MinimumSize = New System.Drawing.Size(137, 50)
-        Me.SaveNowButton.Name = "SaveNowButton"
-        Me.SaveNowButton.Size = New System.Drawing.Size(137, 50)
-        Me.SaveNowButton.TabIndex = 69
-        Me.SaveNowButton.Text = "Save Now"
-        Me.ToolTip1.SetToolTip(Me.SaveNowButton, "Click to autosave immediately")
-        Me.SaveNowButton.UseVisualStyleBackColor = True
+        Me.QuickSaveButton.Dock = System.Windows.Forms.DockStyle.Left
+        Me.QuickSaveButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.QuickSaveButton.Location = New System.Drawing.Point(0, 0)
+        Me.QuickSaveButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.QuickSaveButton.MaximumSize = New System.Drawing.Size(137, 50)
+        Me.QuickSaveButton.MinimumSize = New System.Drawing.Size(137, 50)
+        Me.QuickSaveButton.Name = "QuickSaveButton"
+        Me.QuickSaveButton.Size = New System.Drawing.Size(137, 50)
+        Me.QuickSaveButton.TabIndex = 69
+        Me.QuickSaveButton.Text = "Quick Save"
+        Me.ToolTip1.SetToolTip(Me.QuickSaveButton, "Click to create a quick save")
+        Me.QuickSaveButton.UseVisualStyleBackColor = True
         '
         'StartButton
         '
@@ -365,7 +367,7 @@ Partial Class MainForm
         Me.StartButton.Name = "StartButton"
         Me.StartButton.Size = New System.Drawing.Size(857, 50)
         Me.StartButton.TabIndex = 6
-        Me.StartButton.Text = "Start Saving"
+        Me.StartButton.Text = "Start Autosaving"
         Me.ToolTip1.SetToolTip(Me.StartButton, "Start or stop autosaving periodically")
         Me.StartButton.UseVisualStyleBackColor = True
         '
@@ -445,6 +447,32 @@ Partial Class MainForm
         Me.ToolTip1.SetToolTip(Me.GameListButton, "Load and create new game autosave configs")
         Me.GameListButton.UseVisualStyleBackColor = True
         '
+        'QuickLoadButton
+        '
+        Me.QuickLoadButton.Dock = System.Windows.Forms.DockStyle.Right
+        Me.QuickLoadButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.QuickLoadButton.Location = New System.Drawing.Point(720, 0)
+        Me.QuickLoadButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.QuickLoadButton.MaximumSize = New System.Drawing.Size(137, 50)
+        Me.QuickLoadButton.MinimumSize = New System.Drawing.Size(137, 50)
+        Me.QuickLoadButton.Name = "QuickLoadButton"
+        Me.QuickLoadButton.Size = New System.Drawing.Size(137, 50)
+        Me.QuickLoadButton.TabIndex = 70
+        Me.QuickLoadButton.Text = "Quick Load"
+        Me.ToolTip1.SetToolTip(Me.QuickLoadButton, "Click to replace your game save with your last quick save")
+        Me.QuickLoadButton.UseVisualStyleBackColor = True
+        '
+        'CounterSwitchButton
+        '
+        Me.CounterSwitchButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CounterSwitchButton.Location = New System.Drawing.Point(646, 241)
+        Me.CounterSwitchButton.Name = "CounterSwitchButton"
+        Me.CounterSwitchButton.Size = New System.Drawing.Size(75, 22)
+        Me.CounterSwitchButton.TabIndex = 79
+        Me.CounterSwitchButton.Text = "autosave"
+        Me.ToolTip1.SetToolTip(Me.CounterSwitchButton, "Toggle to view and change next quick save or autosave count")
+        Me.CounterSwitchButton.UseVisualStyleBackColor = True
+        '
         'OpenImageFileDialog
         '
         Me.OpenImageFileDialog.Filter = "Image Files (*.jpg, *.jpeg, *.png, *.bmp, *.gif, *.tif, *.tiff, *.jpe, *.jp2, *.j" &
@@ -453,7 +481,8 @@ Partial Class MainForm
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.SaveNowButton)
+        Me.Panel1.Controls.Add(Me.QuickLoadButton)
+        Me.Panel1.Controls.Add(Me.QuickSaveButton)
         Me.Panel1.Controls.Add(Me.StartButton)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel1.Location = New System.Drawing.Point(0, 338)
@@ -530,6 +559,7 @@ Partial Class MainForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(857, 388)
+        Me.Controls.Add(Me.CounterSwitchButton)
         Me.Controls.Add(Me.ChangeLimitButton)
         Me.Controls.Add(Me.AutosaveLimitTextBox)
         Me.Controls.Add(Me.Label7)
@@ -544,7 +574,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.Browse2)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.AutosaveCountTextBox)
+        Me.Controls.Add(Me.SaveCountTextBox)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.OverwriteComboBox)
         Me.Controls.Add(Me.Label8)
@@ -560,6 +590,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.TextBox1)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MaximumSize = New System.Drawing.Size(3000, 3000)
         Me.MinimumSize = New System.Drawing.Size(865, 418)
@@ -589,7 +620,7 @@ Partial Class MainForm
     Friend WithEvents AutosaveF1TextBox As TextBox
     Friend WithEvents Label8 As Label
     Friend WithEvents OverwriteComboBox As ComboBox
-    Friend WithEvents AutosaveCountTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents SaveCountTextBox As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Label11 As System.Windows.Forms.Label
@@ -600,7 +631,7 @@ Partial Class MainForm
     Friend WithEvents ContainingButton2 As Button
     Friend WithEvents ContainingButton1 As Button
     Friend WithEvents ToolTip1 As ToolTip
-    Friend WithEvents SaveNowButton As Button
+    Friend WithEvents QuickSaveButton As Button
     Friend WithEvents StartButton As Button
     Friend WithEvents ChangeCountButton As Button
     Friend WithEvents OpenImageFileDialog As OpenFileDialog
@@ -616,4 +647,6 @@ Partial Class MainForm
     Friend WithEvents Panel2 As Panel
     Friend WithEvents SettingsButton As Button
     Friend WithEvents GameListButton As Button
+    Friend WithEvents CounterSwitchButton As Button
+    Friend WithEvents QuickLoadButton As Button
 End Class

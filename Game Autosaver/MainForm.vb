@@ -7,15 +7,19 @@ Public Class MainForm
     Dim pass1 As Boolean = True, endThread As Boolean = False
     Public SaveThread As System.Threading.Thread
     Public AlarmStopThread As System.Threading.Thread
-    'Dim ResetThread As System.Threading.Thread
     Public accessLock As New Object
     Private timer1Lock As New Object
+    Public HotkeysChangeLock As Boolean = False ' locks hotkey usage after hotkeys have been changed in settings
+    Private QuickSaveCounter As Decimal
+    Public QuickSaveHotKey As Keys
+    Public QuickLoadHotKey As Keys
+    Private LastQuickSavePath As String ' holds last quick save path
 
     ' start button click
     Private Sub StartButton_Click(sender As Object, e As EventArgs) Handles StartButton.Click
-        If StartButton.Text = "Start Saving" AndAlso Not Directory.Exists(TextBox1.Text) Then
+        If StartButton.Text = "Start Autosaving" AndAlso Not Directory.Exists(TextBox1.Text) Then
             MsgBox("Game save directory does not exist!", MsgBoxStyle.Exclamation, "Error")
-        ElseIf StartButton.Text = "Start Saving" AndAlso Not Directory.Exists(TextBox2.Text) Then
+        ElseIf StartButton.Text = "Start Autosaving" AndAlso Not Directory.Exists(TextBox2.Text) Then
             MsgBox("Autosave storage directory does not exist!", MsgBoxStyle.Exclamation, "Error")
         Else
             My.Settings.AutosaveIntervalMinutes = CInt(NumericUpDown1.Value)
@@ -23,20 +27,16 @@ Public Class MainForm
             My.Settings.AutosaveStorageDirectory = TextBox2.Text
             My.Settings.Save()
 
-            If StartButton.Text = "Start Saving" Then
+            If StartButton.Text = "Start Autosaving" Then
                 TextBox1.ReadOnly = True
                 TextBox2.ReadOnly = True
                 StartSaving()
-            ElseIf StartButton.Text = "Stop Saving" Then
+            ElseIf StartButton.Text = "Stop Autosaving" Then
                 TextBox1.ReadOnly = False
                 TextBox2.ReadOnly = False
                 SaveTimerPtr.Stop()
                 AlarmTimeDatePicker.Enabled = True
                 Reset() ' reset settings
-                'If pass1 Then
-                '   pass1 = False ' prevent multiple tries
-                '   StopThread() ' stop alarm sound thread
-                'End If
             End If
         End If
 
@@ -53,7 +53,7 @@ Public Class MainForm
             AlarmTimeDatePicker.Enabled = False
             pass1 = True
             SaveTimerPtr.Start()
-            StartButton.Text = "Stop Saving"
+            StartButton.Text = "Stop Autosaving"
             Me.BackColor = Color.Red
             NumericUpDown1.Enabled = False
         End SyncLock
@@ -66,6 +66,30 @@ Public Class MainForm
         SettingsButton.Image = My.Resources.Cog_Wheel
 
         Me.Opacity = 100.0
+
+        If Not IsNothing(My.Settings.QuickSaveCounter) Then
+            QuickSaveCounter = My.Settings.QuickSaveCounter
+        Else
+            QuickSaveCounter = 1D
+        End If
+
+        If Not IsNothing(My.Settings.LastQuickSavePath) Then
+            LastQuickSavePath = My.Settings.LastQuickSavePath
+        Else
+            LastQuickSavePath = ""
+        End If
+
+        If Not IsNothing(My.Settings.QuickSaveHotKey) Then
+            QuickSaveHotKey = My.Settings.QuickSaveHotKey
+        Else
+            QuickSaveHotKey = Keys.F5
+        End If
+        If Not IsNothing(My.Settings.QuickLoadHotKey) Then
+            QuickLoadHotKey = My.Settings.QuickLoadHotKey
+        Else
+            QuickLoadHotKey = Keys.F8
+        End If
+        Hotkeys.Show()
 
         If Not IsNothing(My.Settings.Name) Then
             Label6.Text = My.Settings.Name
@@ -96,17 +120,19 @@ Public Class MainForm
 
         AlarmTimeDatePicker.Text = tmp ' Set default alarm to 5 minutes from now
 
-        If Not IsNothing(My.Settings.SaveCounter) AndAlso Not My.Settings.SaveCounter = 0 Then
-            If My.Settings.SaveCounter > Math.Abs(My.Settings.AutosaveLimit) Then
-                counterAmount = 1
-                AutosaveCountTextBox.Text = 1
+        CounterSwitchButton.Text = AutoSaveText
+
+        If Not IsNothing(My.Settings.AutoSaveCounter) AndAlso Not My.Settings.AutoSaveCounter = 0 Then
+            If My.Settings.AutoSaveCounter > Math.Abs(My.Settings.AutosaveLimit) Then
+                AutoSaveCounter = 1
+                SaveCountTextBox.Text = 1
             Else
-                counterAmount = Math.Abs(My.Settings.SaveCounter)
-                AutosaveCountTextBox.Text = Math.Abs(My.Settings.SaveCounter)
+                AutoSaveCounter = Math.Abs(My.Settings.AutoSaveCounter)
+                SaveCountTextBox.Text = Math.Abs(My.Settings.AutoSaveCounter)
             End If
         Else
-            counterAmount = 1
-            AutosaveCountTextBox.Text = 1
+            AutoSaveCounter = 1
+            SaveCountTextBox.Text = 1
         End If
 
         If Not IsNothing(My.Settings.BackgroundImageLoc) AndAlso File.Exists(My.Settings.BackgroundImageLoc) Then
@@ -133,13 +159,14 @@ Public Class MainForm
             RoundRobinButton.Text = "Enabled"
         End If
 
-        If IsNothing(My.Settings.AutosaveLimit) OrElse Math.Abs(My.Settings.AutosaveLimit) >= 2147483646 Then
-            limitAmount = 2147483646
+        If IsNothing(My.Settings.AutosaveLimit) OrElse Math.Abs(My.Settings.AutosaveLimit) = 79228162514264337593543950335D Then
+            AutosaveLimit = 79228162514264337593543950335D
             AutosaveLimitTextBox.Text = "None"
         Else
-            limitAmount = Math.Abs(My.Settings.AutosaveLimit)
+            AutosaveLimit = Math.Abs(My.Settings.AutosaveLimit)
             AutosaveLimitTextBox.Text = Math.Abs(My.Settings.AutosaveLimit)
         End If
+
     End Sub
 
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
@@ -157,8 +184,8 @@ Public Class MainForm
             My.Settings.AutosaveIntervalMinutes = CInt(NumericUpDown1.Value)
         End If
 
-        If Not IsNothing(counterAmount) Then
-            My.Settings.SaveCounter = counterAmount
+        If Not IsNothing(AutoSaveCounter) Then
+            My.Settings.AutoSaveCounter = AutoSaveCounter
         End If
 
         If IsNothing(My.Settings.RoundRobinEnabled) OrElse My.Settings.RoundRobinEnabled = False Then
@@ -174,11 +201,11 @@ Public Class MainForm
             My.Settings.RoundRobinEnabled = False
         End If
 
-        If IsNothing(limitAmount) OrElse limitAmount = 2147483646 Then
-            My.Settings.AutosaveLimit = 2147483646 ' unlimited
+        If IsNothing(AutosaveLimit) OrElse AutosaveLimit = 79228162514264337593543950335D Then
+            My.Settings.AutosaveLimit = 79228162514264337593543950335D ' unlimited
             'AutosaveLimitTextBox.Text = "None"
         Else
-            My.Settings.AutosaveLimit = limitAmount ' limited
+            My.Settings.AutosaveLimit = AutosaveLimit ' limited
             'AutosaveLimitTextBox.Text = limitAmount
         End If
 
@@ -193,8 +220,56 @@ Public Class MainForm
             'My.Settings.BackgroundImageLoc
         End If
 
+        If Not IsNothing(QuickSaveCounter) Then
+            My.Settings.QuickSaveCounter = QuickSaveCounter
+        End If
+
+        If Not IsNothing(LastQuickSavePath) Then
+            My.Settings.LastQuickSavePath = LastQuickSavePath
+        End If
+
+        If Not IsNothing(QuickSaveHotKey) Then
+            My.Settings.QuickSaveHotKey = QuickSaveHotKey
+        End If
+        If Not IsNothing(QuickLoadHotKey) Then
+            My.Settings.QuickLoadHotKey = QuickLoadHotKey
+        End If
+        Hotkeys.Close()
+
         Me.Show()
         Me.WindowState = FormWindowState.Normal ' Unminimize Window
+    End Sub
+
+    Public Sub QuickLoad() Handles QuickLoadButton.Click
+        If Not Directory.Exists(LastQuickSavePath) Then
+            MsgBox("Quick load failed!" & vbNewLine & vbNewLine & "quick save does not exist: " & """" & LastQuickSavePath & """", MsgBoxStyle.Critical)
+        Else
+            If IsNothing(My.Settings.ManualSaveResetInterval) OrElse My.Settings.ManualSaveResetInterval = True Then
+                SyncLock timer1Lock
+                    If StartButton.Text = "Stop Autosaving" Then ' currently autosaving
+                        SaveTimerPtr.Stop()
+                        Me.BackColor = Color.Gold ' reset color
+                        StartSaving()
+                    End If
+                End SyncLock
+            End If
+            If Directory.Exists(TextBox1.Text) Then
+
+                If My.Settings.BackupQuickLoad Then ' if quick load backup enabled
+                    If TextBox2.Text(TextBox2.Text.Length - 1) = "\" Then
+                        TextBox2.Text = TextBox2.Text.Substring(0, TextBox2.Text.Length - 1)
+                    End If
+                    Dim BackupDestination As String = TextBox2.Text & "\" & "Quick Save Temporary Backup"
+                    If Directory.Exists(BackupDestination) Then
+                        My.Computer.FileSystem.DeleteDirectory(BackupDestination, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    End If
+                    My.Computer.FileSystem.CopyDirectory(TextBox1.Text, BackupDestination)
+                End If
+
+                My.Computer.FileSystem.DeleteDirectory(TextBox1.Text, FileIO.DeleteDirectoryOption.DeleteAllContents) ' delete destination
+            End If
+            My.Computer.FileSystem.CopyDirectory(LastQuickSavePath, TextBox1.Text) ' copy to destination
+        End If
     End Sub
 
     Private Sub CurrentTimer_Tick(sender As Object, e As EventArgs) Handles CurrentTimer.Tick
@@ -208,15 +283,6 @@ Public Class MainForm
 
                 Me.BackColor = Color.Gold ' reset color
 
-                'endThread = True
-                'SyncLock accessLock
-                '    endThread = False
-
-                'SaveThread = New System.Threading.Thread(AddressOf SaveNow)
-                'SaveThread.IsBackground = True
-                'SaveThread.Start() ' start alarm sound
-                'End SyncLock
-
                 ThisForm.SaveNow()
 
                 'Reset() ' reset settings
@@ -224,25 +290,25 @@ Public Class MainForm
         End SyncLock
     End Sub
 
-    Dim SaveNowButtonFlag As Boolean = False
-    Private Sub SaveNowButton_Click(sender As Object, e As EventArgs) Handles SaveNowButton.Click
+    Dim QuickSaveButtonFlag As Boolean = False
+    Public Sub QuickSaveButton_Click() Handles QuickSaveButton.Click
         If Not Directory.Exists(TextBox1.Text) Then
             MsgBox("Game save directory does not exist.", MsgBoxStyle.Exclamation, "Error")
         ElseIf Not Directory.Exists(TextBox2.Text) Then
             MsgBox("Autosave storage directory does not exist.", MsgBoxStyle.Exclamation, "Error")
         Else
             If Not IsNothing(My.Settings.ManualSaveResetInterval) AndAlso My.Settings.ManualSaveResetInterval = False Then
-                SaveNowButtonFlag = True
+                QuickSaveButtonFlag = True
                 SaveNow()
             Else ' My.Settings.ManualSaveResetInterval = True (default when nothing)
                 SyncLock timer1Lock
-                    If StartButton.Text = "Stop Saving" Then ' currently autosaving
+                    If StartButton.Text = "Stop Autosaving" Then ' currently autosaving
                         SaveTimerPtr.Stop()
                         Me.BackColor = Color.Gold ' reset color
-                        SaveNowButtonFlag = True
+                        QuickSaveButtonFlag = True
                         SaveNow()
                     Else
-                        SaveNowButtonFlag = True
+                        QuickSaveButtonFlag = True
                         SaveNow()
                     End If
                 End SyncLock
@@ -252,7 +318,7 @@ Public Class MainForm
 
     Dim Source As String ' copy the game's save location
     Dim Destination As String ' autosave destination location
-    Dim counterAmount As Integer ' autosave number to append to the end
+    Dim AutoSaveCounter As Decimal ' autosave number to append to the end
     ''' <summary>
     ''' Autosave primary saving work.
     ''' </summary>
@@ -267,7 +333,7 @@ Public Class MainForm
 
                 Source = TextBox1.Text ' copy the game's save location
 
-                If SaveNowButtonFlag = True AndAlso
+                If QuickSaveButtonFlag = True AndAlso
                 Not IsNothing(My.Settings.AlternateSaveNowLocationEnabled) AndAlso My.Settings.AlternateSaveNowLocationEnabled = True Then
 
                     If Not Directory.Exists(My.Settings.AlternateSaveNowLocation) Then
@@ -292,7 +358,7 @@ Public Class MainForm
                 End If
                 If Destination(Destination.Length - 1) = "\" Then
                     Destination = Destination.Substring(0, Destination.Length - 1)
-                    If SaveNowButtonFlag = False Then
+                    If QuickSaveButtonFlag = False Then
                         My.Settings.AutosaveStorageDirectory = Destination
                     End If
                 End If
@@ -311,30 +377,49 @@ Public Class MainForm
                 End If
 
                 ' Create new directory to be saved to. (With counter)
-                Destination = Destination & "\" & "Autosave " & counterAmount
+                If QuickSaveButtonFlag = True Then
+                    Destination = Destination & "\" & "Quick Save " & QuickSaveCounter
+                Else
+                    Destination = Destination & "\" & "Autosave " & AutoSaveCounter
+                End If
 
                 ' Copy to the save location.
                 CopyToSaveLocation(overwriteFlag)
 
                 ' Increment the save count.
-                If Not counterAmount = limitAmount Then
-                    counterAmount += 1 ' increment count
-                Else
-                    counterAmount = 1 ' integer max or limit reached
+                If QuickSaveButtonFlag = True Then ' quick save
+                    If Not QuickSaveCounter = 79228162514264337593543950335D Then
+                        QuickSaveCounter += 1 ' increment count
+                    Else
+                        QuickSaveCounter = 1 ' integer max or limit reached
+                    End If
+                    My.Settings.QuickSaveCounter = QuickSaveCounter
+                    If CounterSwitchButton.Text = QuickSaveText Then
+                        SaveCountTextBox.Text = QuickSaveCounter ' update counter amount
+                    End If
+                Else ' autosave
+                    If Not AutoSaveCounter = AutosaveLimit Then
+                        AutoSaveCounter += 1 ' increment count
+                    Else
+                        AutoSaveCounter = 1 ' integer max or limit reached
+                    End If
+                    My.Settings.AutoSaveCounter = AutoSaveCounter
+                    If CounterSwitchButton.Text = AutoSaveText Then
+                        SaveCountTextBox.Text = AutoSaveCounter ' update counter amount
+                    End If
                 End If
-                My.Settings.SaveCounter = counterAmount
-                AutosaveCountTextBox.Text = counterAmount ' update counter amount
+
 
                 'Reset()
 
-                If SaveNowButtonFlag = True AndAlso
-                   StartButton.Text = "Stop Saving" AndAlso Not IsNothing(My.Settings.ManualSaveResetInterval) AndAlso My.Settings.ManualSaveResetInterval = True _
-                   OrElse SaveNowButtonFlag = False Then
+                If QuickSaveButtonFlag = True AndAlso
+                   StartButton.Text = "Stop Autosaving" AndAlso Not IsNothing(My.Settings.ManualSaveResetInterval) AndAlso My.Settings.ManualSaveResetInterval = True _
+                   OrElse QuickSaveButtonFlag = False Then
 
                     StartSaving() ' setup next autosave interval
                 End If
 
-                SaveNowButtonFlag = False
+                QuickSaveButtonFlag = False
 
             Else
                 If Not Directory.Exists(TextBox1.Text) Then
@@ -359,6 +444,9 @@ Public Class MainForm
         Dim TopFolderName As String = GetFileName(Source)
         Dim UpperDestination As String = Destination
         Destination = Destination & "\" & TopFolderName
+        If QuickSaveButtonFlag = True Then
+            LastQuickSavePath = Destination ' set new last quick save path
+        End If
         If overwriteFlag = True Then
             If Directory.Exists(Destination) Then ' case 1
                 If Not IsNothing(My.Settings.SimpleAutosaveOverwriting) AndAlso My.Settings.SimpleAutosaveOverwriting = True Then
@@ -527,7 +615,7 @@ Public Class MainForm
 
     Private Sub Reset()
         Control.CheckForIllegalCrossThreadCalls = False
-        StartButton.Text = "Start Saving" ' reset button text
+        StartButton.Text = "Start Autosaving" ' reset button text
         AlarmTimeLabel.Text = "Never" ' reset alarm set to text
         NumericUpDown1.Enabled = True
         Me.BackColor = System.Drawing.SystemColors.Control ' reset color
@@ -673,10 +761,6 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub MainForm_SizeChanged(sender As Object, e As EventArgs) Handles MyBase.SizeChanged
-
-    End Sub
-
     Dim resizeInProgress As Boolean = False
     ''' <summary>
     ''' Resize the Main form's background image to its new size and replace it. (Stretch)
@@ -719,47 +803,49 @@ Public Class MainForm
     ''' Occurs when an IO failure happens, so it can be logged.
     ''' </summary>
     Private Sub AutosaveIOFailure()
-        If AutosaveF1TextBox.Visible = False Then
-            AutosaveF1TextBox.Visible = True
-        End If
-        If AutosaveF1Label.Visible = False Then
-            AutosaveF1Label.Visible = True
-        End If
+        AutosaveF1TextBox.Visible = True
+        AutosaveF1Label.Visible = True
 
+        My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Exclamation)
         AutosaveF1TextBox.Text = CInt(AutosaveF1TextBox.Text) + 1 ' Autosave failure
     End Sub
 
     Private Sub ChangeCountButton_Click(sender As Object, e As EventArgs) Handles ChangeCountButton.Click
-        Dim newCount As String = InputBox("Input new count", "", AutosaveCountTextBox.Text)
+        Dim newCount As String = InputBox("Input new count", "", SaveCountTextBox.Text)
         If IsNothing(newCount) OrElse newCount = "" Then
             'MsgBox("Entered value is blank.", MsgBoxStyle.Exclamation, "Error")
         ElseIf Not IsNumeric(newCount) Then
             MsgBox("Entered value is not a number.", MsgBoxStyle.Exclamation, "Error")
         Else ' success
-            Dim tempNum As Double
-            If Double.TryParse(newCount, tempNum) Then
-                tempNum = Math.Truncate(CDbl(newCount))
+            Dim tempNum As Decimal
+            If Decimal.TryParse(newCount, tempNum) Then
+                tempNum = Math.Truncate(CDec(newCount))
             Else
                 MsgBox("Entered value is too large.", MsgBoxStyle.Exclamation, "Error")
                 Exit Sub
             End If
 
-            If tempNum > 2147483646 Then
+            If tempNum > 79228162514264337593543950335D Then
                 MsgBox("Entered value is too high.", MsgBoxStyle.Exclamation, "Error")
-            ElseIf tempNum < 1 AndAlso Not tempNum = 0 Then
+            ElseIf tempNum < 1D AndAlso Not tempNum = 0D Then
                 MsgBox("Entered value cannot be negative.", MsgBoxStyle.Exclamation, "Error")
-            ElseIf tempNum > limitAmount Then
+            ElseIf tempNum > AutosaveLimit Then
                 MsgBox("Entered value cannot be higher than the specified limit.", MsgBoxStyle.Exclamation, "Error")
             Else ' success
-                Dim newCounter As Integer = CInt(tempNum)
+                Dim newCounter As Decimal = tempNum
                 If newCounter = 0 Then
                     newCounter = 1
                 End If
 
                 SyncLock accessLock
-                    My.Settings.SaveCounter = newCounter
-                    counterAmount = newCounter
-                    AutosaveCountTextBox.Text = newCounter
+                    If CounterSwitchButton.Text = QuickSaveText Then
+                        My.Settings.QuickSaveCounter = newCounter
+                        QuickSaveCounter = newCounter
+                    ElseIf CounterSwitchButton.Text = AutoSaveText Then
+                        My.Settings.AutoSaveCounter = newCounter
+                        AutoSaveCounter = newCounter
+                    End If
+                    SaveCountTextBox.Text = newCounter
 
                     My.Settings.Save()
                 End SyncLock
@@ -817,7 +903,7 @@ Public Class MainForm
         My.Settings.Save()
     End Sub
 
-    Dim limitAmount As Integer
+    Dim AutosaveLimit As Decimal
     Private Function ChangeLimitButton_Click() As Boolean Handles ChangeLimitButton.Click
         'AutosaveLimitTextBox.Text
 
@@ -833,38 +919,38 @@ Public Class MainForm
         ElseIf Not IsNumeric(newVal) Then
             MsgBox("Entered value is not a number.", MsgBoxStyle.Exclamation, "Error")
         Else ' success
-            Dim tempNum As Double = Math.Truncate(CDbl(newVal))
-            If Double.TryParse(newVal, tempNum) Then
-                tempNum = Math.Truncate(CDbl(newVal))
+            Dim tempNum As Decimal
+            If Decimal.TryParse(newVal, tempNum) Then
+                tempNum = Math.Truncate(CDec(newVal))
             Else
                 MsgBox("Entered value is too large.", MsgBoxStyle.Exclamation, "Error")
                 Return False ' failure
             End If
 
-            If tempNum > 2147483646 Then
+            If tempNum > 79228162514264337593543950335D Then
                 MsgBox("Entered value is too high.", MsgBoxStyle.Exclamation, "Error")
-            ElseIf tempNum < 0 Then
+            ElseIf tempNum < 0D Then
                 MsgBox("Entered value cannot be negative.", MsgBoxStyle.Exclamation, "Error")
             Else ' success
-                Dim newValue As Integer = CInt(tempNum)
+                Dim newValue As Decimal = CDec(tempNum)
                 SyncLock accessLock
                     If newValue = 0 Then ' unlimited
-                        My.Settings.AutosaveLimit = 2147483646
-                        limitAmount = 2147483646
+                        My.Settings.AutosaveLimit = 79228162514264337593543950335D
+                        AutosaveLimit = 79228162514264337593543950335D
                         AutosaveLimitTextBox.Text = "None"
                     Else ' limited
                         My.Settings.AutosaveLimit = newValue
-                        limitAmount = newValue
+                        AutosaveLimit = newValue
                         AutosaveLimitTextBox.Text = newValue
                         If OverwriteComboBox.SelectedIndex = 0 AndAlso roundRobinButtonWasClicked = False Then ' false don't overwrite
                             MsgBox("Please consider enabling round robin." & vbNewLine & "Otherwise once the autosaving starts from 1 again nothing will be overwritten.",
                                    MsgBoxStyle.Exclamation, "Warning")
                         End If
                     End If
-                    If counterAmount > limitAmount Then ' set autosave counter to 1 if now above the new limit
-                        My.Settings.SaveCounter = 1
-                        counterAmount = 1
-                        AutosaveCountTextBox.Text = 1
+                    If AutoSaveCounter > AutosaveLimit Then ' set autosave counter to 1 if now above the new limit
+                        My.Settings.AutoSaveCounter = 1
+                        AutoSaveCounter = 1
+                        SaveCountTextBox.Text = 1
                     End If
                     My.Settings.Save()
                 End SyncLock
@@ -895,5 +981,22 @@ Public Class MainForm
     Private Sub GameListButton_Click(sender As Object, e As EventArgs) Handles GameListButton.Click
         GameList.Show()
     End Sub
+
+    Dim QuickSaveText As String = "quick save"
+    Dim AutoSaveText As String = "autosave"
+
+    ''' <summary>
+    ''' Switches the text in the button to manual save or auto save, which will determine which counter is shown and editable.
+    ''' </summary>
+    Private Sub CounterSwitchButton_Click(sender As Object, e As EventArgs) Handles CounterSwitchButton.Click
+        If CounterSwitchButton.Text = AutoSaveText Then
+            CounterSwitchButton.Text = "quick save"
+            SaveCountTextBox.Text = QuickSaveCounter
+        ElseIf CounterSwitchButton.Text = QuickSaveText Then
+            CounterSwitchButton.Text = "autosave"
+            SaveCountTextBox.Text = AutoSaveCounter
+        End If
+    End Sub
+
 End Class
 

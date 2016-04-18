@@ -35,18 +35,27 @@ Partial Class SettingsForm
         Me.AltSaveNowLocCheckBox = New System.Windows.Forms.CheckBox()
         Me.AltSaveNowLocBrowseButton = New System.Windows.Forms.Button()
         Me.BackgroundImageButton = New System.Windows.Forms.Button()
+        Me.BackupQuickLoadCheckBox = New System.Windows.Forms.CheckBox()
+        Me.AboutButton = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.QuickLoadHotkeyTextBox = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.QuickSaveHotkeyTextBox = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.AltSaveNowLocTextBox = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.AboutButton = New System.Windows.Forms.Button()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.SuspendLayout()
@@ -79,12 +88,12 @@ Partial Class SettingsForm
         Me.ResetIntervalCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.ResetIntervalCheckBox.Checked = True
         Me.ResetIntervalCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ResetIntervalCheckBox.Location = New System.Drawing.Point(43, 15)
+        Me.ResetIntervalCheckBox.Location = New System.Drawing.Point(15, 15)
         Me.ResetIntervalCheckBox.Name = "ResetIntervalCheckBox"
         Me.ResetIntervalCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.ResetIntervalCheckBox.Size = New System.Drawing.Size(180, 40)
+        Me.ResetIntervalCheckBox.Size = New System.Drawing.Size(221, 40)
         Me.ResetIntervalCheckBox.TabIndex = 5
-        Me.ResetIntervalCheckBox.Text = "Reset autosave interval" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "when manually saving"
+        Me.ResetIntervalCheckBox.Text = "      Reset autosave interval" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "when manually saving/loading"
         Me.ToolTip1.SetToolTip(Me.ResetIntervalCheckBox, resources.GetString("ResetIntervalCheckBox.ToolTip"))
         Me.ResetIntervalCheckBox.UseVisualStyleBackColor = True
         '
@@ -146,9 +155,9 @@ Partial Class SettingsForm
         Me.AltSaveNowLocCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.AltSaveNowLocCheckBox.Location = New System.Drawing.Point(136, 19)
         Me.AltSaveNowLocCheckBox.Name = "AltSaveNowLocCheckBox"
-        Me.AltSaveNowLocCheckBox.Size = New System.Drawing.Size(252, 22)
+        Me.AltSaveNowLocCheckBox.Size = New System.Drawing.Size(250, 22)
         Me.AltSaveNowLocCheckBox.TabIndex = 0
-        Me.AltSaveNowLocCheckBox.Text = "Use alternate ""Save Now"" location"
+        Me.AltSaveNowLocCheckBox.Text = "Use alternate Quick Save location"
         Me.ToolTip1.SetToolTip(Me.AltSaveNowLocCheckBox, "When activated, if you click ""Save Now"" it will create an autosave in a seperate " &
         "directory that you specify.")
         Me.AltSaveNowLocCheckBox.UseVisualStyleBackColor = True
@@ -177,8 +186,37 @@ Partial Class SettingsForm
         Me.ToolTip1.SetToolTip(Me.BackgroundImageButton, "Set the background to an image")
         Me.BackgroundImageButton.UseVisualStyleBackColor = True
         '
+        'BackupQuickLoadCheckBox
+        '
+        Me.BackupQuickLoadCheckBox.AutoSize = True
+        Me.BackupQuickLoadCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BackupQuickLoadCheckBox.Checked = True
+        Me.BackupQuickLoadCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.BackupQuickLoadCheckBox.Location = New System.Drawing.Point(42, 94)
+        Me.BackupQuickLoadCheckBox.Name = "BackupQuickLoadCheckBox"
+        Me.BackupQuickLoadCheckBox.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.BackupQuickLoadCheckBox.Size = New System.Drawing.Size(194, 22)
+        Me.BackupQuickLoadCheckBox.TabIndex = 6
+        Me.BackupQuickLoadCheckBox.Text = "Backup before quick load"
+        Me.ToolTip1.SetToolTip(Me.BackupQuickLoadCheckBox, "When enabled, quick loading will backup the game's save to the autosave storage d" &
+        "irectory before overwriting it with the quick save")
+        Me.BackupQuickLoadCheckBox.UseVisualStyleBackColor = True
+        '
+        'AboutButton
+        '
+        Me.AboutButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.AboutButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AboutButton.Location = New System.Drawing.Point(0, 302)
+        Me.AboutButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.AboutButton.Name = "AboutButton"
+        Me.AboutButton.Size = New System.Drawing.Size(67, 32)
+        Me.AboutButton.TabIndex = 73
+        Me.AboutButton.Text = "About"
+        Me.AboutButton.UseVisualStyleBackColor = True
+        '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.GroupBox7)
         Me.GroupBox1.Controls.Add(Me.AboutButton)
         Me.GroupBox1.Controls.Add(Me.GroupBox6)
         Me.GroupBox1.Controls.Add(Me.Label1)
@@ -188,9 +226,84 @@ Partial Class SettingsForm
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(818, 212)
+        Me.GroupBox1.Size = New System.Drawing.Size(818, 334)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
+        '
+        'GroupBox7
+        '
+        Me.GroupBox7.Controls.Add(Me.BackupQuickLoadCheckBox)
+        Me.GroupBox7.Controls.Add(Me.QuickLoadHotkeyTextBox)
+        Me.GroupBox7.Controls.Add(Me.Label6)
+        Me.GroupBox7.Controls.Add(Me.Label5)
+        Me.GroupBox7.Controls.Add(Me.QuickSaveHotkeyTextBox)
+        Me.GroupBox7.Controls.Add(Me.Label4)
+        Me.GroupBox7.Controls.Add(Me.Label3)
+        Me.GroupBox7.Location = New System.Drawing.Point(6, 174)
+        Me.GroupBox7.Name = "GroupBox7"
+        Me.GroupBox7.Size = New System.Drawing.Size(266, 124)
+        Me.GroupBox7.TabIndex = 6
+        Me.GroupBox7.TabStop = False
+        '
+        'QuickLoadHotkeyTextBox
+        '
+        Me.QuickLoadHotkeyTextBox.BackColor = System.Drawing.SystemColors.Window
+        Me.QuickLoadHotkeyTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.QuickLoadHotkeyTextBox.Location = New System.Drawing.Point(92, 67)
+        Me.QuickLoadHotkeyTextBox.Name = "QuickLoadHotkeyTextBox"
+        Me.QuickLoadHotkeyTextBox.ReadOnly = True
+        Me.QuickLoadHotkeyTextBox.Size = New System.Drawing.Size(80, 21)
+        Me.QuickLoadHotkeyTextBox.TabIndex = 5
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(14, 70)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(72, 15)
+        Me.Label6.TabIndex = 4
+        Me.Label6.Text = "Quick Load:"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(179, 14)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(78, 15)
+        Me.Label5.TabIndex = 3
+        Me.Label5.Text = "(Esc to clear)"
+        '
+        'QuickSaveHotkeyTextBox
+        '
+        Me.QuickSaveHotkeyTextBox.BackColor = System.Drawing.SystemColors.Window
+        Me.QuickSaveHotkeyTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.QuickSaveHotkeyTextBox.Location = New System.Drawing.Point(92, 40)
+        Me.QuickSaveHotkeyTextBox.Name = "QuickSaveHotkeyTextBox"
+        Me.QuickSaveHotkeyTextBox.ReadOnly = True
+        Me.QuickSaveHotkeyTextBox.Size = New System.Drawing.Size(80, 21)
+        Me.QuickSaveHotkeyTextBox.TabIndex = 2
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(15, 43)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(71, 15)
+        Me.Label4.TabIndex = 1
+        Me.Label4.Text = "Quick Save:"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(99, 11)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(63, 18)
+        Me.Label3.TabIndex = 0
+        Me.Label3.Text = "Hotkeys"
         '
         'GroupBox6
         '
@@ -199,7 +312,7 @@ Partial Class SettingsForm
         Me.GroupBox6.Controls.Add(Me.Label2)
         Me.GroupBox6.Location = New System.Drawing.Point(279, 0)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(538, 203)
+        Me.GroupBox6.Size = New System.Drawing.Size(538, 298)
         Me.GroupBox6.TabIndex = 8
         Me.GroupBox6.TabStop = False
         '
@@ -246,23 +359,11 @@ Partial Class SettingsForm
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "Global Settings"
         '
-        'AboutButton
-        '
-        Me.AboutButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AboutButton.Location = New System.Drawing.Point(0, 180)
-        Me.AboutButton.Margin = New System.Windows.Forms.Padding(0)
-        Me.AboutButton.Name = "AboutButton"
-        Me.AboutButton.Size = New System.Drawing.Size(67, 32)
-        Me.AboutButton.TabIndex = 73
-        Me.AboutButton.Text = "About"
-        Me.ToolTip1.SetToolTip(Me.AboutButton, "Set the background to an image")
-        Me.AboutButton.UseVisualStyleBackColor = True
-        '
         'SettingsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(818, 212)
+        Me.ClientSize = New System.Drawing.Size(818, 334)
         Me.Controls.Add(Me.GroupBox1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -277,6 +378,8 @@ Partial Class SettingsForm
         Me.GroupBox3.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.GroupBox7.ResumeLayout(False)
+        Me.GroupBox7.PerformLayout()
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
@@ -304,4 +407,12 @@ Partial Class SettingsForm
     Friend WithEvents GroupBox6 As GroupBox
     Friend WithEvents BackgroundImageButton As Button
     Friend WithEvents AboutButton As Button
+    Friend WithEvents GroupBox7 As GroupBox
+    Friend WithEvents QuickSaveHotkeyTextBox As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents QuickLoadHotkeyTextBox As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents BackupQuickLoadCheckBox As CheckBox
 End Class

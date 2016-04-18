@@ -1,9 +1,9 @@
 ﻿Public Class GameList
 
-
     ' Save format (With My.Settings.)
     ' .Name<\?/>.GameSaveDirectory<\?/>.AutosaveStorageDirectory<\?/>.AutosaveIntervalMinutes<\?/>.SaveCounter<\?/>
     ' .OverwriteSaves<\?/>.BackgroundImageLoc<\?/>.RoundRobinEnabled<\?/>.AutosaveLimit<\?/>.AlternateSaveNowLocationEnabled<\?/>.AlternateSaveNowLocation
+    ' <\?/>.QuickSaveCounter<\?/>.LastQuickSavePath
 
     Private Sub GameList_Load() Handles MyBase.Load
         Icon = My.Resources.Icon_256
@@ -51,10 +51,14 @@
                             DataGridView1.Item(11, NewRowIndex).Value = False
                         End If
                         DataGridView1.Item(12, NewRowIndex).Value = e(10)
+
+                        DataGridView1.Item(13, NewRowIndex).Value = e(11) ' QuickSaveCounter
+
+                        DataGridView1.Item(14, NewRowIndex).Value = e(12) ' LastQuickSavePath
                     Catch ex As System.IndexOutOfRangeException
                     End Try
 
-                    If e(0) = MainForm.Label6.Text Then
+                    If e(0) = MainForm.Label6.Text Then ' currently open save
                         Dim CellBtn As New DataGridViewButtonCell
                         CellBtn.Value = "Current"
                         DataGridView1.Item(1, NewRowIndex) = CellBtn
@@ -105,11 +109,7 @@
             MsgBox("This is already active.", MsgBoxStyle.Information, "Error")
         Else
             StopAnyMainFormWork() ' stop any active elements
-            MainForm.MainForm_FormClosing()
-
-            ' set textboxes in case they were changed before settings were set to them
-            My.Settings.GameSaveDirectory = MainForm.TextBox1.Text
-            My.Settings.AutosaveStorageDirectory = MainForm.TextBox2.Text
+            MainForm.MainForm_FormClosing() ' update settings
 
             Dim foundIt As Boolean = False
             For i As Integer = 0 To DataGridView1.Rows.Count - 1
@@ -121,13 +121,15 @@
                         DataGridView1.Item(3, i).Value = .GameSaveDirectory
                         DataGridView1.Item(4, i).Value = .AutosaveStorageDirectory
                         DataGridView1.Item(5, i).Value = .AutosaveIntervalMinutes
-                        DataGridView1.Item(6, i).Value = .SaveCounter
+                        DataGridView1.Item(6, i).Value = .AutoSaveCounter
                         DataGridView1.Item(7, i).Value = .OverwriteSaves
                         DataGridView1.Item(8, i).Value = .BackgroundImageLoc
                         DataGridView1.Item(9, i).Value = .RoundRobinEnabled
                         DataGridView1.Item(10, i).Value = .AutosaveLimit
                         DataGridView1.Item(11, i).Value = .AlternateSaveNowLocationEnabled
                         DataGridView1.Item(12, i).Value = .AlternateSaveNowLocation
+                        DataGridView1.Item(13, i).Value = .QuickSaveCounter
+                        DataGridView1.Item(14, i).Value = .LastQuickSavePath
                     End With
                 End If
             Next
@@ -158,9 +160,9 @@
                 End If
 
                 If Not IsNothing(DataGridView1.Item(6, row).Value) Then
-                    .SaveCounter = DataGridView1.Item(6, row).Value
+                    .AutoSaveCounter = DataGridView1.Item(6, row).Value
                 Else ' default
-                    .SaveCounter = 1
+                    .AutoSaveCounter = 1
                 End If
 
                 If Boolean.TryParse(DataGridView1.Item(7, row).Value, test) = True Then
@@ -184,7 +186,7 @@
                 If Not IsNothing(DataGridView1.Item(10, row).Value) Then
                     .AutosaveLimit = DataGridView1.Item(10, row).Value
                 Else ' default
-                    .AutosaveLimit = 2147483646
+                    .AutosaveLimit = 79228162514264337593543950335D
                 End If
 
                 If Boolean.TryParse(DataGridView1.Item(11, row).Value, test) = True Then
@@ -197,6 +199,18 @@
                     .AlternateSaveNowLocation = DataGridView1.Item(12, row).Value
                 Else ' default
                     .AlternateSaveNowLocation = ""
+                End If
+
+                If Not IsNothing(DataGridView1.Item(13, row).Value) Then
+                    .QuickSaveCounter = DataGridView1.Item(13, row).Value
+                Else ' default
+                    .QuickSaveCounter = 1D
+                End If
+
+                If Not IsNothing(DataGridView1.Item(14, row).Value) Then
+                    .LastQuickSavePath = DataGridView1.Item(14, row).Value
+                Else ' default
+                    .LastQuickSavePath = ""
                 End If
 
             End With
@@ -215,7 +229,7 @@
     ''' </summary>
     Private Sub StopAnyMainFormWork()
         SyncLock MainForm.accessLock
-            If MainForm.StartButton.Text = "Stop Saving" Then
+            If MainForm.StartButton.Text = "Stop Autosaving" Then
                 MainForm.StartButton.PerformClick() ' stop autosaving
             End If
         End SyncLock
@@ -239,6 +253,9 @@
         End If
     End Sub
 
+    ''' <summary>
+    ''' Remove game from My.Settings list by DataGridView row corresponding name.
+    ''' </summary>
     Private Sub RemoveGameFromSettings(row As Integer)
         For i As Integer = 0 To My.Settings.GameList.Count - 1 'DataGridView1.Item(0, row).Value & "<\?/>"
             For j As Integer = 0 To My.Settings.GameList(i).Length - 1
@@ -302,7 +319,7 @@ EndOfForLoops1:
             Next
 
             With My.Settings
-                DataGridView1.Rows.Add(NewGame, "Load", "Remove", "", "", "5", "1", False, "", False, "2147483646", False, "")
+                DataGridView1.Rows.Add(NewGame, "Load", "Remove", "", "", "5", "1", False, "", False, "79228162514264337593543950335", False, "", "1", "")
             End With
             SaveGames()
         End If
@@ -313,7 +330,7 @@ EndOfForLoops1:
     ''' </summary>
     ''' <param name="row">Corresponding DataGridView row.</param>
     Private Function ReconstructDataGridViewSettingString(row As Integer)
-        Return (DataGridView1.Item(0, row).Value & "<\?/>" &
+        Return DataGridView1.Item(0, row).Value & "<\?/>" &
         DataGridView1.Item(3, row).Value & "<\?/>" &
         DataGridView1.Item(4, row).Value & "<\?/>" &
         DataGridView1.Item(5, row).Value & "<\?/>" &
@@ -323,7 +340,9 @@ EndOfForLoops1:
         DataGridView1.Item(9, row).Value & "<\?/>" &
         DataGridView1.Item(10, row).Value & "<\?/>" &
         DataGridView1.Item(11, row).Value & "<\?/>" &
-        DataGridView1.Item(12, row).Value)
+        DataGridView1.Item(12, row).Value & "<\?/>" &
+        DataGridView1.Item(13, row).Value & "<\?/>" &
+        DataGridView1.Item(14, row).Value
 
         ' Save format (My.Settings)
     End Function
@@ -333,9 +352,6 @@ EndOfForLoops1:
     ''' </summary>
     ''' <returns>Returns the index of the new row</returns>
     Private Function AddRowFromCurrent() As Integer
-        ' Save format (With My.Settings.)
-        ' .Name<\?/>.GameSaveDirectory<\?/>.AutosaveStorageDirectory<\?/>.AutosaveIntervalMinutes<\?/>.SaveCounter<\?/>
-        ' .OverwriteSaves<\?/>.BackgroundImageLoc<\?/>.RoundRobinEnabled<\?/>.AutosaveLimit<\?/>.AlternateSaveNowLocationEnabled<\?/>.AlternateSaveNowLocation
 
         Dim index As Integer
         With MainForm
@@ -353,14 +369,15 @@ EndOfForLoops1:
                 roundRobinState = True
             End If
 
-            Dim autosaveLimit As Integer = 2147483646
+            Dim autosaveLimit As Decimal = 79228162514264337593543950335D
             If Not IsNothing(My.Settings.AutosaveLimit) Then
                 autosaveLimit = My.Settings.AutosaveLimit
             End If
 
             index = DataGridView1.Rows.Add(.Label6.Text, "Load", "Remove", .TextBox1.Text, .TextBox2.Text, CStr(.NumericUpDown1.Value),
-                                   .AutosaveCountTextBox.Text, overwriteState, My.Settings.BackgroundImageLoc, roundRobinState, autosaveLimit,
-                                   My.Settings.AlternateSaveNowLocationEnabled, My.Settings.AlternateSaveNowLocation)
+                                   .SaveCountTextBox.Text, overwriteState, My.Settings.BackgroundImageLoc, roundRobinState, autosaveLimit,
+                                   My.Settings.AlternateSaveNowLocationEnabled, My.Settings.AlternateSaveNowLocation, My.Settings.QuickSaveCounter,
+                                   My.Settings.LastQuickSavePath)
         End With
 
         Return index
