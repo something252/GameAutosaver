@@ -18,8 +18,8 @@
     ''' Reset/clear background.
     ''' </summary>
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        My.Settings.BackgroundImageLoc = ""
-        My.Settings.Save()
+        MainForm.Games.CurrentSettings.BackgroundImageLoc = ""
+        MainForm.SaveMySettings()
         MainForm.BackgroundImage = Nothing
 
         Me.Close()

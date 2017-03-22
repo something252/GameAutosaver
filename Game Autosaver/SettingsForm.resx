@@ -121,14 +121,8 @@
     <value>17, 17</value>
   </metadata>
   <data name="SimpleOverwritingCheckBox.ToolTip" xml:space="preserve">
-    <value>Simple overwriting of autosaves will delete the existing autosave folder if detected and copy over the new autosave, 
-instead of copying one directories' contents to another and overwriting anything that is the same file.</value>
-  </data>
-  <data name="ResetIntervalCheckBox.ToolTip" xml:space="preserve">
-    <value>Reset the autosave interval when quick saving/loading.
-Example: If the autosave interval were 10 minutes and there were 4 minutes
-left to the next autosave, quick saving or loading would change
-the time left to 10 minutes.</value>
+    <value>Simple overwriting of saves will delete the entire existing auto/quick save folder if detected and copy over the new save, 
+instead of copying one directories' contents to another and only overwriting anything that is the same file.</value>
   </data>
   <metadata name="FolderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>116, 17</value>

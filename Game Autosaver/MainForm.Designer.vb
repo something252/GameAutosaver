@@ -23,17 +23,15 @@ Partial Class MainForm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.AlarmTimeDatePicker = New System.Windows.Forms.DateTimePicker()
         Me.CurrentTimeLabel = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.SaveTimer = New System.Windows.Forms.Timer(Me.components)
         Me.CurrentTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.AlarmTimeLabel = New System.Windows.Forms.Label()
+        Me.SaveTimeLabel = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
         Me.AutosaveF1Label = New System.Windows.Forms.Label()
@@ -61,13 +59,15 @@ Partial Class MainForm
         Me.GameListButton = New System.Windows.Forms.Button()
         Me.QuickLoadButton = New System.Windows.Forms.Button()
         Me.CounterSwitchButton = New System.Windows.Forms.Button()
+        Me.SaveViewerButton = New System.Windows.Forms.Button()
         Me.OpenImageFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.AutosaveLimitTextBox = New System.Windows.Forms.TextBox()
+        Me.SaveLimitTextBox = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.HotkeysTimer = New System.Windows.Forms.Timer(Me.components)
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -75,6 +75,7 @@ Partial Class MainForm
         '
         'TextBox1
         '
+        Me.TextBox1.AllowDrop = True
         Me.TextBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -107,6 +108,7 @@ Partial Class MainForm
         '
         'TextBox2
         '
+        Me.TextBox2.AllowDrop = True
         Me.TextBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -116,16 +118,6 @@ Partial Class MainForm
         Me.TextBox2.Size = New System.Drawing.Size(685, 26)
         Me.TextBox2.TabIndex = 3
         Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'AlarmTimeDatePicker
-        '
-        Me.AlarmTimeDatePicker.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AlarmTimeDatePicker.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AlarmTimeDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time
-        Me.AlarmTimeDatePicker.Location = New System.Drawing.Point(363, 45)
-        Me.AlarmTimeDatePicker.Name = "AlarmTimeDatePicker"
-        Me.AlarmTimeDatePicker.Size = New System.Drawing.Size(113, 26)
-        Me.AlarmTimeDatePicker.TabIndex = 7
         '
         'CurrentTimeLabel
         '
@@ -151,21 +143,21 @@ Partial Class MainForm
         '
         'SaveTimer
         '
-        Me.SaveTimer.Interval = 720
+        Me.SaveTimer.Interval = 1000
         '
         'CurrentTimer
         '
         '
-        'AlarmTimeLabel
+        'SaveTimeLabel
         '
-        Me.AlarmTimeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.AlarmTimeLabel.AutoSize = True
-        Me.AlarmTimeLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AlarmTimeLabel.Location = New System.Drawing.Point(378, 296)
-        Me.AlarmTimeLabel.Name = "AlarmTimeLabel"
-        Me.AlarmTimeLabel.Size = New System.Drawing.Size(50, 20)
-        Me.AlarmTimeLabel.TabIndex = 11
-        Me.AlarmTimeLabel.Text = "Never"
+        Me.SaveTimeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.SaveTimeLabel.AutoSize = True
+        Me.SaveTimeLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveTimeLabel.Location = New System.Drawing.Point(378, 296)
+        Me.SaveTimeLabel.Name = "SaveTimeLabel"
+        Me.SaveTimeLabel.Size = New System.Drawing.Size(50, 20)
+        Me.SaveTimeLabel.TabIndex = 11
+        Me.SaveTimeLabel.Text = "Never"
         '
         'Label5
         '
@@ -196,19 +188,19 @@ Partial Class MainForm
         Me.AutosaveF1Label.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.AutosaveF1Label.AutoSize = True
         Me.AutosaveF1Label.BackColor = System.Drawing.Color.Red
-        Me.AutosaveF1Label.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AutosaveF1Label.Location = New System.Drawing.Point(6, 301)
+        Me.AutosaveF1Label.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AutosaveF1Label.Location = New System.Drawing.Point(5, 262)
         Me.AutosaveF1Label.Name = "AutosaveF1Label"
-        Me.AutosaveF1Label.Size = New System.Drawing.Size(148, 13)
+        Me.AutosaveF1Label.Size = New System.Drawing.Size(161, 16)
         Me.AutosaveF1Label.TabIndex = 54
-        Me.AutosaveF1Label.Text = "Autosave failures (System IO):"
+        Me.AutosaveF1Label.Text = "Save failures (System IO):"
         Me.AutosaveF1Label.Visible = False
         '
         'AutosaveF1TextBox
         '
         Me.AutosaveF1TextBox.Anchor = System.Windows.Forms.AnchorStyles.Top
         Me.AutosaveF1TextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AutosaveF1TextBox.Location = New System.Drawing.Point(157, 296)
+        Me.AutosaveF1TextBox.Location = New System.Drawing.Point(168, 260)
         Me.AutosaveF1TextBox.Name = "AutosaveF1TextBox"
         Me.AutosaveF1TextBox.ReadOnly = True
         Me.AutosaveF1TextBox.Size = New System.Drawing.Size(55, 22)
@@ -242,7 +234,7 @@ Partial Class MainForm
         Me.OverwriteComboBox.Name = "OverwriteComboBox"
         Me.OverwriteComboBox.Size = New System.Drawing.Size(55, 24)
         Me.OverwriteComboBox.TabIndex = 57
-        Me.ToolTip1.SetToolTip(Me.OverwriteComboBox, "Overwrite existing autosaves of the same name or not")
+        Me.ToolTip1.SetToolTip(Me.OverwriteComboBox, "Enable or disable overwriting of existing saves of the same name")
         '
         'SaveCountTextBox
         '
@@ -343,6 +335,12 @@ Partial Class MainForm
         Me.ToolTip1.SetToolTip(Me.ContainingButton1, "Open the directory")
         Me.ContainingButton1.UseVisualStyleBackColor = True
         '
+        'ToolTip1
+        '
+        Me.ToolTip1.AutoPopDelay = 30000
+        Me.ToolTip1.InitialDelay = 500
+        Me.ToolTip1.ReshowDelay = 100
+        '
         'QuickSaveButton
         '
         Me.QuickSaveButton.Dock = System.Windows.Forms.DockStyle.Left
@@ -360,7 +358,7 @@ Partial Class MainForm
         '
         'StartButton
         '
-        Me.StartButton.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.StartButton.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.StartButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.StartButton.Location = New System.Drawing.Point(0, 0)
         Me.StartButton.Margin = New System.Windows.Forms.Padding(0)
@@ -394,7 +392,7 @@ Partial Class MainForm
         Me.ChangeLimitButton.Size = New System.Drawing.Size(55, 22)
         Me.ChangeLimitButton.TabIndex = 78
         Me.ChangeLimitButton.Text = "Change"
-        Me.ToolTip1.SetToolTip(Me.ChangeLimitButton, "When the autosave limit is hit then the autosaving will start from 1 again")
+        Me.ToolTip1.SetToolTip(Me.ChangeLimitButton, "When the save limit is hit then the saving will start from 1 again")
         Me.ChangeLimitButton.UseVisualStyleBackColor = True
         '
         'RoundRobinButton
@@ -406,7 +404,7 @@ Partial Class MainForm
         Me.RoundRobinButton.Size = New System.Drawing.Size(136, 33)
         Me.RoundRobinButton.TabIndex = 75
         Me.RoundRobinButton.Text = "Disabled"
-        Me.ToolTip1.SetToolTip(Me.RoundRobinButton, resources.GetString("RoundRobinButton.ToolTip"))
+        Me.ToolTip1.SetToolTip(Me.RoundRobinButton, "Enable or disable the overwriting of saved autosaves or quick saves." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.RoundRobinButton.UseVisualStyleBackColor = True
         '
         'MinimizeToTrayButton
@@ -444,7 +442,7 @@ Partial Class MainForm
         Me.GameListButton.Size = New System.Drawing.Size(89, 42)
         Me.GameListButton.TabIndex = 82
         Me.GameListButton.Text = "Game List"
-        Me.ToolTip1.SetToolTip(Me.GameListButton, "Load and create new game autosave configs")
+        Me.ToolTip1.SetToolTip(Me.GameListButton, "Load and create new game save configs")
         Me.GameListButton.UseVisualStyleBackColor = True
         '
         'QuickLoadButton
@@ -473,6 +471,19 @@ Partial Class MainForm
         Me.CounterSwitchButton.Text = "autosave"
         Me.ToolTip1.SetToolTip(Me.CounterSwitchButton, "Toggle to view and change next quick save or autosave count")
         Me.CounterSwitchButton.UseVisualStyleBackColor = True
+        '
+        'SaveViewerButton
+        '
+        Me.SaveViewerButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.SaveViewerButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveViewerButton.Location = New System.Drawing.Point(0, 290)
+        Me.SaveViewerButton.Margin = New System.Windows.Forms.Padding(0)
+        Me.SaveViewerButton.Name = "SaveViewerButton"
+        Me.SaveViewerButton.Size = New System.Drawing.Size(137, 48)
+        Me.SaveViewerButton.TabIndex = 71
+        Me.SaveViewerButton.Text = "Save List"
+        Me.ToolTip1.SetToolTip(Me.SaveViewerButton, "Shows a list of your autosaves or quick saves to load, delete, or view")
+        Me.SaveViewerButton.UseVisualStyleBackColor = True
         '
         'OpenImageFileDialog
         '
@@ -515,17 +526,17 @@ Partial Class MainForm
         Me.Label7.TabIndex = 76
         Me.Label7.Text = "Autosave limit:"
         '
-        'AutosaveLimitTextBox
+        'SaveLimitTextBox
         '
-        Me.AutosaveLimitTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.AutosaveLimitTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AutosaveLimitTextBox.Location = New System.Drawing.Point(722, 215)
-        Me.AutosaveLimitTextBox.Name = "AutosaveLimitTextBox"
-        Me.AutosaveLimitTextBox.ReadOnly = True
-        Me.AutosaveLimitTextBox.Size = New System.Drawing.Size(62, 22)
-        Me.AutosaveLimitTextBox.TabIndex = 77
-        Me.AutosaveLimitTextBox.Text = "None"
-        Me.AutosaveLimitTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SaveLimitTextBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SaveLimitTextBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SaveLimitTextBox.Location = New System.Drawing.Point(722, 215)
+        Me.SaveLimitTextBox.Name = "SaveLimitTextBox"
+        Me.SaveLimitTextBox.ReadOnly = True
+        Me.SaveLimitTextBox.Size = New System.Drawing.Size(62, 22)
+        Me.SaveLimitTextBox.TabIndex = 77
+        Me.SaveLimitTextBox.Text = "None"
+        Me.SaveLimitTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label6
         '
@@ -555,14 +566,18 @@ Partial Class MainForm
         Me.Panel2.Size = New System.Drawing.Size(857, 42)
         Me.Panel2.TabIndex = 73
         '
+        'HotkeysTimer
+        '
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(857, 388)
+        Me.Controls.Add(Me.SaveViewerButton)
         Me.Controls.Add(Me.CounterSwitchButton)
         Me.Controls.Add(Me.ChangeLimitButton)
-        Me.Controls.Add(Me.AutosaveLimitTextBox)
+        Me.Controls.Add(Me.SaveLimitTextBox)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.RoundRobinButton)
         Me.Controls.Add(Me.Label4)
@@ -583,10 +598,9 @@ Partial Class MainForm
         Me.Controls.Add(Me.AutosaveF1Label)
         Me.Controls.Add(Me.NumericUpDown1)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.AlarmTimeLabel)
+        Me.Controls.Add(Me.SaveTimeLabel)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.CurrentTimeLabel)
-        Me.Controls.Add(Me.AlarmTimeDatePicker)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.Label1)
@@ -609,12 +623,11 @@ Partial Class MainForm
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents AlarmTimeDatePicker As DateTimePicker
     Friend WithEvents CurrentTimeLabel As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents SaveTimer As Timer
     Friend WithEvents CurrentTimer As Timer
-    Friend WithEvents AlarmTimeLabel As Label
+    Friend WithEvents SaveTimeLabel As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents NumericUpDown1 As NumericUpDown
     Friend WithEvents AutosaveF1Label As Label
@@ -640,7 +653,7 @@ Partial Class MainForm
     Friend WithEvents Label4 As Label
     Friend WithEvents RoundRobinButton As Button
     Friend WithEvents Label7 As Label
-    Friend WithEvents AutosaveLimitTextBox As TextBox
+    Friend WithEvents SaveLimitTextBox As TextBox
     Friend WithEvents ChangeLimitButton As Button
     Private WithEvents Label2 As Label
     Friend WithEvents MinimizeToTrayButton As Button
@@ -650,4 +663,6 @@ Partial Class MainForm
     Friend WithEvents GameListButton As Button
     Friend WithEvents CounterSwitchButton As Button
     Friend WithEvents QuickLoadButton As Button
+    Friend WithEvents HotkeysTimer As Timer
+    Friend WithEvents SaveViewerButton As Button
 End Class

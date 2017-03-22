@@ -132,12 +132,10 @@
   <metadata name="NotifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>419, 17</value>
   </metadata>
-  <data name="RoundRobinButton.ToolTip" xml:space="preserve">
-    <value>Enable or disable the overwriting of saves. 
-When the current autosave count goes beyond the specified limit it will start from 1 again 
-or for example if the "Autosave 5" folder already exists and the current autosave count is now 5 and is saving it will either overwrite it or not.</value>
-  </data>
   <metadata name="OpenImageFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>633, 17</value>
+  </metadata>
+  <metadata name="HotkeysTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>802, 17</value>
   </metadata>
 </root>

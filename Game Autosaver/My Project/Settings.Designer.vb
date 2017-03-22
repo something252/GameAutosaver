@@ -56,121 +56,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property GameSaveDirectory() As String
-            Get
-                Return CType(Me("GameSaveDirectory"),String)
-            End Get
-            Set
-                Me("GameSaveDirectory") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property AutosaveStorageDirectory() As String
-            Get
-                Return CType(Me("AutosaveStorageDirectory"),String)
-            End Get
-            Set
-                Me("AutosaveStorageDirectory") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("5")>  _
-        Public Property AutosaveIntervalMinutes() As Integer
-            Get
-                Return CType(Me("AutosaveIntervalMinutes"),Integer)
-            End Get
-            Set
-                Me("AutosaveIntervalMinutes") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property AutoSaveCounter() As Integer
-            Get
-                Return CType(Me("AutoSaveCounter"),Integer)
-            End Get
-            Set
-                Me("AutoSaveCounter") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property OverwriteSaves() As Boolean
+        Public Property SimpleSaveOverwriting() As Boolean
             Get
-                Return CType(Me("OverwriteSaves"),Boolean)
+                Return CType(Me("SimpleSaveOverwriting"),Boolean)
             End Get
             Set
-                Me("OverwriteSaves") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property BackgroundImageLoc() As String
-            Get
-                Return CType(Me("BackgroundImageLoc"),String)
-            End Get
-            Set
-                Me("BackgroundImageLoc") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property RoundRobinEnabled() As Boolean
-            Get
-                Return CType(Me("RoundRobinEnabled"),Boolean)
-            End Get
-            Set
-                Me("RoundRobinEnabled") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("79228162514264337593543950335")>  _
-        Public Property AutosaveLimit() As Decimal
-            Get
-                Return CType(Me("AutosaveLimit"),Decimal)
-            End Get
-            Set
-                Me("AutosaveLimit") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property SimpleAutosaveOverwriting() As Boolean
-            Get
-                Return CType(Me("SimpleAutosaveOverwriting"),Boolean)
-            End Get
-            Set
-                Me("SimpleAutosaveOverwriting") = value
+                Me("SimpleSaveOverwriting") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property SimpleAutosaveOverwritingPermaDelete() As Boolean
+        Public Property SimpleSaveOverwritingPermaDelete() As Boolean
             Get
-                Return CType(Me("SimpleAutosaveOverwritingPermaDelete"),Boolean)
+                Return CType(Me("SimpleSaveOverwritingPermaDelete"),Boolean)
             End Get
             Set
-                Me("SimpleAutosaveOverwritingPermaDelete") = value
+                Me("SimpleSaveOverwritingPermaDelete") = value
             End Set
         End Property
         
@@ -188,103 +92,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("<?xml version=""1.0"" encoding=""utf-16""?>"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"<ArrayOfString xmlns:xsi=""http://www.w3."& _ 
-            "org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" />")>  _
-        Public Property GameList() As Global.System.Collections.Specialized.StringCollection
-            Get
-                Return CType(Me("GameList"),Global.System.Collections.Specialized.StringCollection)
-            End Get
-            Set
-                Me("GameList") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("GAME AUTOSAVER")>  _
-        Public Property Name() As String
-            Get
-                Return CType(Me("Name"),String)
-            End Get
-            Set
-                Me("Name") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property AlternateSaveNowLocationEnabled() As Boolean
-            Get
-                Return CType(Me("AlternateSaveNowLocationEnabled"),Boolean)
-            End Get
-            Set
-                Me("AlternateSaveNowLocationEnabled") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property AlternateSaveNowLocation() As String
-            Get
-                Return CType(Me("AlternateSaveNowLocation"),String)
-            End Get
-            Set
-                Me("AlternateSaveNowLocation") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("F5")>  _
-        Public Property QuickSaveHotKey() As Global.System.Windows.Forms.Keys
-            Get
-                Return CType(Me("QuickSaveHotKey"),Global.System.Windows.Forms.Keys)
-            End Get
-            Set
-                Me("QuickSaveHotKey") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("F8")>  _
-        Public Property QuickLoadHotKey() As Global.System.Windows.Forms.Keys
-            Get
-                Return CType(Me("QuickLoadHotKey"),Global.System.Windows.Forms.Keys)
-            End Get
-            Set
-                Me("QuickLoadHotKey") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property QuickSaveCounter() As Decimal
-            Get
-                Return CType(Me("QuickSaveCounter"),Decimal)
-            End Get
-            Set
-                Me("QuickSaveCounter") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property LastQuickSavePath() As String
-            Get
-                Return CType(Me("LastQuickSavePath"),String)
-            End Get
-            Set
-                Me("LastQuickSavePath") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
         Public Property BackupQuickLoad() As Boolean
             Get
@@ -292,6 +99,30 @@ Namespace My
             End Get
             Set
                 Me("BackupQuickLoad") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Saves() As String
+            Get
+                Return CType(Me("Saves"),String)
+            End Get
+            Set
+                Me("Saves") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property SaveListPermaDelete() As Boolean
+            Get
+                Return CType(Me("SaveListPermaDelete"),Boolean)
+            End Get
+            Set
+                Me("SaveListPermaDelete") = value
             End Set
         End Property
     End Class
@@ -305,9 +136,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Game_Autosaver.My.MySettings
+        Friend ReadOnly Property Settings() As Global.GameAutosaver.My.MySettings
             Get
-                Return Global.Game_Autosaver.My.MySettings.Default
+                Return Global.GameAutosaver.My.MySettings.Default
             End Get
         End Property
     End Module
